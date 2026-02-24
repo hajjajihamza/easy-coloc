@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('status', [ColocationStatus::ACTIVE, ColocationStatus::CANCELLED])->default(ColocationStatus::ACTIVE);
-            $table->foreignIdFor(User::class, 'owner_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
