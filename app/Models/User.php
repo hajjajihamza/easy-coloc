@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
@@ -44,6 +45,17 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be appended to the model.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        'image_url',
+        'is_admin',
+        'is_banned',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -58,8 +70,24 @@ class User extends Authenticatable
         ];
     }
 
+    // Accessors
+    protected function imageUrl(): Attribute
+    {
+        return Attribute::get(fn() => $this->image ? asset('storage/' . $this->image) : asset('images/default-user.webp'));
+    }
+
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::get(fn() => $this->role === UserRole::ADMIN);
+    }
+
+    public function isBanned(): Attribute
+    {
+        return Attribute::get(fn() => $this->banned_at !== null);
+    }
+
     // Relationships
-    public function colocations(): BelongsToMany
+    protected function colocations(): BelongsToMany
     {
         return $this->belongsToMany(Colocation::class, 'memberships')
                     ->using(Membership::class)

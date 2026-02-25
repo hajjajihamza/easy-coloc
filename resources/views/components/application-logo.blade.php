@@ -66,9 +66,8 @@
 
     <!-- Subtile lueur autour du cœur -->
     <circle cx="100" cy="70" r="18" fill="none" stroke="#FCA5A5" stroke-width="1" opacity="0.4" stroke-dasharray="4 2"/>
-
-    <!-- Texte de la marque -->
-    <text x="100" y="182" class="text-base" font-size="13" text-anchor="middle" letter-spacing="0.5">
-        {{ config('app.name', 'laravel') }}
-    </text>
 </svg>
+
+<a href="{{ route('dashboard') }}" class="flex ms-2 md:me-24">
+    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">{{ config('app.name', 'EasyColoc') }}</span>
+</a>
