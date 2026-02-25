@@ -2,7 +2,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')
+Route::middleware(['auth', 'check-banned'])
     ->controller(ProfileController::class)
     ->prefix('profile')
     ->name('profile.')

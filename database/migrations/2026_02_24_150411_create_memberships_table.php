@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamp('joined_at')->useCurrent();
             $table->timestamp('left_at')->nullable();
             $table->enum('role', [MembershipRole::MEMBER, MembershipRole::OWNER])->default(MembershipRole::MEMBER);
-            $table->timestamps();
         });
     }
 

@@ -20,6 +20,17 @@
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
             </div>
 
+            @if (session('success'))
+                <x-alert-success>
+                    {{ session('success') }}
+                </x-alert-success>
+            @endif
+
+            @if (session('error'))
+                <x-alert-danger>
+                    {{ session('error') }}
+                </x-alert-danger>
+            @endif
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>

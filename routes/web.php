@@ -1,15 +1,18 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'check-banned'])->name('dashboard');
+
+Route::get('/banned', function () {
+    return view('auth.banned');
+})->middleware(['auth'])->name('banned');
 
 
 require __DIR__.'/auth.php';
