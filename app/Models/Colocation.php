@@ -48,4 +48,10 @@ class Colocation extends Model
     {
         return $this->hasMany(Invitation::class);
     }
+
+    // Methods
+    public static function countActiveColocations(): int
+    {
+        return self::where('status', ColocationStatus::ACTIVE)->count();
+    }
 }

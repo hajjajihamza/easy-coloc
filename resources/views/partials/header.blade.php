@@ -8,7 +8,7 @@
                         <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                     </svg>
                 </button>
-                
+
                 <x-application-logo class="w-10 h-10 fill-current text-gray-500" />
 
                 <div class="hidden md:block ms-10 border-l border-gray-400 ps-4">
@@ -25,7 +25,7 @@
                             @if (Auth::user()->image)
                                 <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->image_url }}" alt="{{ Auth::user()->name }}">
                             @else
-                                <div class="text-gray-400">
+                                <div class="text-gray-400 rounded-full object-cover ring-2 ring-gray-200">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>

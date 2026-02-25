@@ -104,4 +104,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Payment::class);
     }
+
+    // Methods
+    public static function countBannedUsers(): int
+    {
+        return self::whereNotNull('banned_at')->count();
+    }
 }
