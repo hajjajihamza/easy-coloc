@@ -39,4 +39,10 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //  Methods
+    public static function totalUnpaidExpenses(): float
+    {
+        return self::whereNull('paid_at')->sum('amount');
+    }
 }

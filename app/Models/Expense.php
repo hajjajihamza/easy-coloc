@@ -46,4 +46,6 @@ class Expense extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    // Methods
 }

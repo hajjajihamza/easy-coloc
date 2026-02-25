@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckBanned
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,9 @@ class CheckBanned
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->is_banned && !$request->is('banned') && !$request->is('logout')) {
-            return redirect()->route('banned');
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403);
         }
-
         return $next($request);
     }
 }
