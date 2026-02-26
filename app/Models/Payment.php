@@ -45,4 +45,9 @@ class Payment extends Model
     {
         return self::whereNull('paid_at')->sum('amount');
     }
+
+    public static function totalUnpaidExpensesByUser(User $user): float
+    {
+        return self::whereNull('paid_at')->where('user_id', $user->id)->sum('amount');
+    }
 }

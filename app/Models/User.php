@@ -87,7 +87,7 @@ class User extends Authenticatable
     }
 
     // Relationships
-    protected function colocations(): BelongsToMany
+    public function colocations(): BelongsToMany
     {
         return $this->belongsToMany(Colocation::class, 'memberships')
                     ->using(Membership::class)
