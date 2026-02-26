@@ -109,39 +109,6 @@
         </div>
 
         <!-- Colocation Members -->
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-            <div class="p-4 border-b border-gray-100">
-                <h3 class="text-lg font-bold text-gray-900">Membres de votre colocation</h3>
-            </div>
-            <div class="p-4">
-                {{-- @php
-                    $members = $userColocation ? $userColocation->members : collect();
-                @endphp --}}
-                <div class="space-y-4">
-                    {{-- @forelse($members as $member)
-                        <div
-                            class="flex items-center justify-between p-3 rounded-lg border border-gray-50 hover:bg-gray-50 transition-colors">
-                            <div class="flex items-center gap-3">
-                                <img src="{{ $member->image_url }}" alt="{{ $member->name }}"
-                                    class="w-10 h-10 rounded-full border border-gray-200">
-                                <div>
-                                    <h4 class="font-semibold text-gray-900 text-sm">{{ $member->name }}</h4>
-                                    <p class="text-xs text-gray-500">Membre depuis
-                                        {{ $member->pivot->joined_at->format('M Y') }}</p>
-                                </div>
-                            </div>
-                            <span
-                                class="px-2 py-1 text-xs font-medium rounded-full {{ $member->pivot->role->value === 'owner' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700' }}">
-                                {{ ucfirst($member->pivot->role->value) }}
-                            </span>
-                        </div>
-                    @empty
-                        <div class="text-center py-8 text-gray-500 italic">
-                            Vous n'êtes pas encore dans une colocation.
-                        </div>
-                    @endforelse --}}
-                </div>
-            </div>
-        </div>
+        <x-members :colocation="$colocation"/>
     </div>
 </x-app-layout>
