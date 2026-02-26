@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\ColocationStatus;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -81,7 +81,7 @@ class User extends Authenticatable
         return Attribute::get(fn() => $this->role === UserRole::ADMIN);
     }
 
-    public function isBanned(): Attribute
+    protected function isBanned(): Attribute
     {
         return Attribute::get(fn() => $this->banned_at !== null);
     }
@@ -93,6 +93,14 @@ class User extends Authenticatable
                     ->using(Membership::class)
                     ->withPivot('joined_at', 'left_at', 'role')
             ;
+    }
+
+    public function activeColocation(): object
+    {
+        return $this->colocations()
+            ->where('status', ColocationStatus::ACTIVE)
+            ->wherePivot('left_at', null)
+            ->first();
     }
 
     public function expenses(): HasMany
