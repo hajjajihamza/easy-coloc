@@ -54,9 +54,12 @@ class ColocationController extends Controller
 
     public function toggleOwner(Colocation $colocation, User $user): RedirectResponse
     {
-        $colocation->members()->update([
-            'role' => MembershipRole::MEMBER,
-        ]);
+        $colocation->members()
+            ->newPivotQuery()
+            ->where('role', MembershipRole::OWNER)
+            ->update([
+                'role' => MembershipRole::MEMBER,
+            ]);
 
         $colocation->members()->updateExistingPivot($user->id, [
             'role' => MembershipRole::OWNER,

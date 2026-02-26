@@ -109,13 +109,13 @@
                             {{ __('Membres') }}
                         </h2>
                         <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            {{ $colocation->members->count() }}
+                            {{ $colocation->members->where('pivot.left_at', null)->count() }}
                         </span>
                     </div>
                 </div>
 
                 <div class="p-5">
-                    @forelse($colocation->members as $member)
+                    @forelse($colocation->members->where('pivot.left_at', null) as $member)
                         <div class="flex items-center justify-between py-2 {{ !$loop->last ? 'border-b border-gray-100' : '' }}">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center space-x-2">
-                                @if(!$member->pivot->is_owner)
+                                @if($member->pivot->is_owner)
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
@@ -147,7 +147,7 @@
                                     </span>
                                 @else
                                     @if($colocation->is_owner && $member->id !== auth()->id())
-                                        <form action="{{ route('colocations.members.toggle-owner', [$colocation, 'user' => $member]) }}" method="POST" class="inline">
+                                        <form action="{{ route('colocations.members.toggle-owner', [$colocation, 'user' => $member]) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('Êtes-vous sûr de vouloir rendre ce membre propriétaire ?') }}')">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-800 hover:bg-orange-200" title="{{ __('Rendre propriétaire') }}">
@@ -155,12 +155,11 @@
                                             </button>
                                         </form>
 
-                                        <form action="{{ route('colocations.members.leaving', [$colocation, 'user' => $member]) }}" method="POST" class="inline ml-2">
+                                        <form action="{{ route('colocations.members.leaving', [$colocation, 'user' => $member]) }}" method="POST" class="inline ml-2" onsubmit="return confirm('{{ __('Êtes-vous sûr de vouloir retirer ce membre ?') }}')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
-                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 hover:bg-red-200" {{ __('Retirer') }}
-                                                    onclick="return confirm('{{ __('Êtes-vous sûr de vouloir retirer ce membre ?') }}')">
+                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 hover:bg-red-200" {{ __('Retirer') }}>
                                                 <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20.12 8.46L18 10.59l-2.12-2.13l-1.42 1.42L16.59 12l-2.13 2.12l1.42 1.42L18 13.41l2.12 2.13l1.42-1.42L19.41 12l2.13-2.12zM8 4a4 4 0 1 0 0 8a4 4 0 1 0 0-8M3 20h10c.55 0 1-.45 1-1v-1c0-2.76-2.24-5-5-5H7c-2.76 0-5 2.24-5 5v1c0 .55.45 1 1 1"/></svg>
                                             </button>
                                         </form>
