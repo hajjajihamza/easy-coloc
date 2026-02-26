@@ -4,7 +4,14 @@
         <p class="text-center text-gray-600">Rejoignez notre communauté et trouvez votre colocataire idéal</p>
     </div>
 
-    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+    @if($invitation)
+        <div class="p-4 mb-4 text-sm text-fg-brand-strong rounded-base bg-brand-softer" role="alert">
+            <span class="font-medium">Vous avez été invité à rejoindre une colocation.</span>
+            <p>Colocation: {{ $invitation->colocation->name }}</p>
+            <p>Email: {{ $invitation->email }}</p>
+        </div>
+    @endif
+    <form method="POST" action="{{ route('register', $invitation ? ['token' => $invitation->token] : []) }}" enctype="multipart/form-data">
         @csrf
         <!-- Name -->
         <div class="mb-5">
@@ -23,7 +30,8 @@
                              required
                              autofocus
                              autocomplete="name"
-                             placeholder="Entrez votre nom complet" />
+                             placeholder="Entrez votre nom complet"
+                             />
             </div>
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
@@ -38,13 +46,14 @@
                     </svg>
                 </div>
                 <x-text-input id="email"
-                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                             type="email"
-                             name="email"
-                             :value="old('email')"
-                             required
-                             autocomplete="username"
-                             placeholder="votre@email.com" />
+                            class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                            type="email"
+                            name="email"
+                            :value="old('email', $invitation->email ?? '')"
+                            required
+                            placeholder="votre@email.com"
+                            :readonly="$invitation"
+                            />
             </div>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>

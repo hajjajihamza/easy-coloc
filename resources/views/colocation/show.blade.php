@@ -185,13 +185,77 @@
 
                     @if($colocation->is_owner)
                         <div class="mt-4">
-                            <a href=""
-                               class="inline-flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <button
+                                type="button"
+                                data-modal-target="modal-invite-members" data-modal-toggle="modal-invite-members"
+                                class="inline-flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                                 </svg>
-                                {{ __('Inviter des membres') }}
-                            </a>
+                                {{ __('Inviter un membre') }}
+                            </button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div id="modal-invite-members" tabindex="-1" aria-hidden="true"
+                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative p-4 w-full max-w-2xl max-h-full">
+                                <form method="POST" action="{{ route('colocations.invite', $colocation) }}"
+                                      class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
+                                    @csrf
+                                    <div class="flex items-center justify-between border-b border-default pb-4 md:pb-5">
+                                        <h3 class="text-lg font-medium text-heading">
+                                            {{ __('Inviter un membre') }}
+                                        </h3>
+                                        <button type="button"
+                                                class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center"
+                                                data-modal-hide="modal-invite-members">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                 height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M6 18 17.94 6M18 18 6.06 6"/>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <div class="space-y-4 md:space-y-6 py-2 md:py-2">
+                                        <!-- Email -->
+                                        <div class="mb-5">
+                                            <x-input-label for="member-email" :value="__('Adresse email du membre')" class="text-gray-700 font-medium"/>
+                                            <div class="mt-1 relative rounded-lg shadow-sm">
+                                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <x-text-input id="member-email"
+                                                              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                                              type="text" name="email" :value="old('email')" required autofocus
+                                                              placeholder="Adresse email du membre"/>
+                                            </div>
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-end space-x-3 pt-2 border-t border-gray-100">
+                                        <button data-modal-hide="modal-invite-members" type="button"
+                                                class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                                            <svg class="inline h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                 viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                      d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/>
+                                            </svg>
+                                            Annuler
+                                        </button>
+                                        <button type="submit"
+                                                class="px-8 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md shadow-blue-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                            <svg class="inline h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                                            </svg>
+                                            {{ __('Inviter') }}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     @endif
                 </div>

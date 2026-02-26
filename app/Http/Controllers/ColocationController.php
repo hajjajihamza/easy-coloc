@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Enums\MembershipRole;
 use App\Http\Requests\Colocation\ColocationRequest;
+use App\Mail\InvitationMail;
 use App\Models\Colocation;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ColocationController extends Controller
 {
@@ -68,5 +72,22 @@ class ColocationController extends Controller
         ]);
 
         return redirect()->route('colocations.show', $colocation)->with('success', 'Colocation quitte avec succès.');
+    }
+
+    public function invite(Request $request, Colocation $colocation)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        $token = time() . Str::random(60) . Str::uuid();
+        $invitation = $colocation->invitations()->create([
+            'email' => $request->email,
+            'token' => $token,
+        ]);
+
+        Mail::to($request->email)->send(new InvitationMail($invitation));
+
+        return redirect(route('colocations.show', $colocation))->with('success', 'Invitation envoyée avec succès.');
     }
 }
