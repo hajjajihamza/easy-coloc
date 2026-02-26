@@ -4,7 +4,7 @@ export function initProfile() {
     const image_placeholder = document.getElementById('image-placeholder');
     const delete_image_btn = document.getElementById('delete-image-btn');
 
-    image_file.addEventListener('change', function() {
+    image_file?.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
             const reader = new FileReader();
@@ -18,7 +18,7 @@ export function initProfile() {
         }
     });
 
-    delete_image_btn.addEventListener('click', function() {
+    delete_image_btn?.addEventListener('click', function() {
         image_preview.src = '#';
         image_preview.classList.add('hidden');
         image_placeholder.classList.remove('hidden');
