@@ -95,7 +95,7 @@ class User extends Authenticatable
             ;
     }
 
-    public function activeColocation(): object
+    public function activeColocation(): ?object
     {
         return $this->colocations()
             ->where('status', ColocationStatus::ACTIVE)

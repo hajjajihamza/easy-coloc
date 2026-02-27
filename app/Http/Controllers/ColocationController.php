@@ -70,6 +70,10 @@ class ColocationController extends Controller
 
     public function leaving(Colocation $colocation, User $user): RedirectResponse
     {
+        $user->payments()->whereNull('paid_at')->update([
+            'user_id' => auth()->id()
+        ]);
+
         $colocation->members()->updateExistingPivot($user->id, [
             'left_at' => now(),
         ]);
