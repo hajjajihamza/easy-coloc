@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,6 +53,15 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Scopes
+    #[Scope]
+    protected function unpaid(Builder $query): void
+    {
+        $query->whereNull('paid_at')
+            ->with(['expense.payer', 'user'])
+        ;
+    }
+
     //  Methods
     public static function totalUnpaidExpenses(): float
     {
@@ -60,5 +71,12 @@ class Payment extends Model
     public static function totalUnpaidExpensesByUser(User $user): float
     {
         return self::whereNull('paid_at')->where('user_id', $user->id)->sum('amount');
+    }
+
+    public static function totalUnpaidExpensesByPayer(User $payer): float
+    {
+        return self::whereNull('paid_at')
+            ->whereRelation('expense', 'user_id', $payer->id)
+            ->sum('amount');
     }
 }

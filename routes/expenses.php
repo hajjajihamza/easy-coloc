@@ -11,4 +11,5 @@ Route::middleware(['auth', 'check-banned'])
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::delete('/{expense}', 'destroy')->name('destroy');
+        Route::post('/{payment}/mark-as-paid', 'markAsPaid')->name('mark-as-paid');
     });

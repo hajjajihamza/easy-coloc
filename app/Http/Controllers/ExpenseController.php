@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Expense\ExpenseRequest;
 use App\Models\Expense;
 use App\Models\Category;
+use App\Models\Payment;
 use Carbon\Carbon;
 use Fruitcake\LaravelDebugbar\Facades\Debugbar;
 use Illuminate\Http\RedirectResponse;
@@ -86,13 +87,22 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense): JsonResponse
     {
         if (Auth::id() !== $expense->user_id) {
-            session(['error' => 'Unauthorized. Only the payer can delete this expense.']);
+            session()?->flash('error', 'Unauthorized. Only the payer can delete this expense.');
             return response()->json(['message' => 'Unauthorized. Only the payer can delete this expense.'], 403);
         }
 
         $expense->delete();
 
-        session(['success' => 'Dépense supprimée avec succès.']);
+        session()?->flash('success', 'Dépense supprimée avec succès.');
         return response()->json(['message' => 'Expense deleted successfully']);
+    }
+
+    public function markAsPaid(Payment $payment): RedirectResponse
+    {
+        $payment->update([
+            'paid_at' => Carbon::now(),
+        ]);
+
+        return redirect()->back()->with(['success' => 'Dépense marquée comme payée avec succès.']);
     }
 }
