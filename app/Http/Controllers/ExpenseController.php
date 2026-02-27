@@ -86,11 +86,13 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense): JsonResponse
     {
         if (Auth::id() !== $expense->user_id) {
+            session(['error' => 'Unauthorized. Only the payer can delete this expense.']);
             return response()->json(['message' => 'Unauthorized. Only the payer can delete this expense.'], 403);
         }
 
         $expense->delete();
 
+        session(['success' => 'Dépense supprimée avec succès.']);
         return response()->json(['message' => 'Expense deleted successfully']);
     }
 }

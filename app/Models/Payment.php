@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,6 +20,10 @@ class Payment extends Model
         'user_id',
     ];
 
+    protected $appends = [
+        'is_paid',
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -28,6 +33,12 @@ class Payment extends Model
         'amount' => 'float',
         'paid_at' => 'datetime',
     ];
+
+    // Accessors
+    public function isPaid(): Attribute
+    {
+        return Attribute::get(fn() => $this->paid_at !== null);
+    }
 
     // Relationships
     public function expense(): BelongsTo
