@@ -9,6 +9,7 @@ Route::middleware(['auth', 'check-banned'])
     ->name('expenses.')
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/export', 'export')->name('export');
         Route::post('/', 'store')->name('store');
         Route::delete('/{expense}', 'destroy')->name('destroy');
         Route::post('/{payment}/mark-as-paid', 'markAsPaid')->name('mark-as-paid');

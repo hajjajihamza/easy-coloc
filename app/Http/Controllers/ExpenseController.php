@@ -12,6 +12,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExpensesExport;
 
 class ExpenseController extends Controller
 {
@@ -97,6 +99,7 @@ class ExpenseController extends Controller
         return response()->json(['message' => 'Expense deleted successfully']);
     }
 
+
     public function markAsPaid(Payment $payment): RedirectResponse
     {
         $payment->update([
@@ -104,5 +107,10 @@ class ExpenseController extends Controller
         ]);
 
         return redirect()->back()->with(['success' => 'Dépense marquée comme payée avec succès.']);
+    }
+
+    public function export()
+    {
+        return Excel::download(new ExpensesExport, 'expenses.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }
