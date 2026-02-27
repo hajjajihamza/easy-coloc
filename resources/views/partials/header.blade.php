@@ -23,17 +23,23 @@
                 </div>
             </div>
             <div class="flex items-center">
-                <x-primary-button type="button" data-modal-target="colocation-modal-new" data-modal-toggle="colocation-modal-new"
-                    class="px-4 py-3 sm:px-6 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                @if(!Auth::user()->activeColocation())
+                    <x-primary-button type="button" data-modal-target="colocation-modal-new" data-modal-toggle="colocation-modal-new"
+                                      class="px-4 py-3 sm:px-6 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
 
-                    <svg class="inline h-5 w-5 mr-0 sm:mr-2" xmlns="http://www.w3.org/2000/svg" width="1em"
-                        height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M17 14h2v3h3v2h-3v3h-2v-3h-3v-2h3zM12 3l10 9h-4a6.005 6.005 0 0 0-5.66 8H5v-8H2z" />
-                    </svg>
+                        <svg class="inline h-5 w-5 mr-0 sm:mr-2" xmlns="http://www.w3.org/2000/svg" width="1em"
+                             height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                  d="M17 14h2v3h3v2h-3v3h-2v-3h-3v-2h3zM12 3l10 9h-4a6.005 6.005 0 0 0-5.66 8H5v-8H2z" />
+                        </svg>
 
-                    <span class="hidden sm:inline">Nouvelle colocation</span>
-                </x-primary-button>
+                        <span class="hidden sm:inline">Nouvelle colocation</span>
+                    </x-primary-button>
+
+                    <!-- Modal -->
+                    <x-modal-colocation />
+                @endif
+
                 <div class="flex items-center ms-3">
                     <div>
                         <button type="button"
@@ -89,6 +95,3 @@
         </div>
     </div>
 </nav>
-
-<!-- Modal -->
-<x-modal-colocation />

@@ -7,6 +7,7 @@ class DashboardController extends Controller
     public function index()
     {
         $colocation = auth()->user()->activeColocation();
-        return view('dashboard', compact('colocation'));
+        $categories = $colocation ? $colocation->categories : collect();
+        return view('dashboard', compact('colocation', 'categories'));
     }
 }

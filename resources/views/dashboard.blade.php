@@ -44,71 +44,41 @@
 
 
     <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Recent Expenses -->
-        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-            <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-                <h3 class="text-lg font-bold text-gray-900">Dépenses Récentes</h3>
-                <a href="#" class="text-sm font-semibold text-blue-600 hover:text-blue-700">Voir tout</a>
-            </div>
-            <div class="p-0">
-                {{-- @php
-                    $userColocation = auth()->user()->colocations()->first();
-                    $recentExpenses = $userColocation
-                        ? \App\Models\Expense::whereHas('category', function ($query) use ($userColocation) {
-                            $query->where('colocation_id', $userColocation->id);
-                        })
-                            ->with(['payer', 'category'])
-                            ->latest()
-                            ->take(5)
-                            ->get()
-                        : collect();
-                @endphp --}}
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
-                            <tr>
-                                <th class="px-4 py-3">Date</th>
-                                <th class="px-4 py-3">Titre</th>
-                                <th class="px-4 py-3">Payeur</th>
-                                <th class="px-4 py-3 text-right">Montant</th>
-                            </tr>
-                        </thead>
-                        {{-- <tbody class="divide-y divide-gray-100">
-                            @forelse($recentExpenses as $expense)
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-4 py-4 whitespace-nowrap text-gray-500">
-                                        {{ $expense->date_at->format('d/m/Y') }}
-                                    </td>
-                                    <td class="px-4 py-4">
-                                        <div class="font-medium text-gray-900">{{ $expense->title }}</div>
-                                        <div class="text-xs text-gray-500">{{ $expense->category->name }}</div>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-2">
-                                            <img src="{{ $expense->payer->image_url }}" alt=""
-                                                class="w-6 h-6 rounded-full">
-                                            <span class="text-gray-700">{{ $expense->payer->name }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4 text-right font-bold text-gray-900 whitespace-nowrap">
-                                        {{ number_format($expense->amount, 2) }} DH
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="px-4 py-8 text-center text-gray-500 italic">
-                                        Aucune dépense récente.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody> --}}
-                    </table>
+        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900">Calendrier des Dépenses</h3>
+                    <p class="text-sm text-gray-500" id="month-total-container">
+                        Total du mois: <span id="month-total" class="font-bold text-blue-600">0.00 DH</span>
+                    </p>
                 </div>
+                <div class="flex gap-2">
+                    <button id="prev-btn" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <button id="today-btn"
+                        class="px-3 py-1 text-sm font-medium hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors">Aujourd'hui</button>
+                    <button id="next-btn" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4 flex-grow">
+                <div id="calendar" class="min-h-[500px]"></div>
             </div>
         </div>
 
         <!-- Colocation Members -->
-        <x-members :colocation="$colocation"/>
+        <x-members :colocation="$colocation" />
     </div>
+
+    <!-- Expense Modal -->
+    <x-expense-modal :categories="$categories" />
+    <x-expense-details-modal />
 </x-app-layout>

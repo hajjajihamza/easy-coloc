@@ -1,6 +1,8 @@
 import './bootstrap';
 import 'flowbite/dist/flowbite.js';
 import { initProfile } from './components/profile';
+import { initExpenseCalendar } from './components/expense-calendar';
 
-// Initialize profile component for profile image
+// Initialize components
 initProfile();
+initExpenseCalendar();

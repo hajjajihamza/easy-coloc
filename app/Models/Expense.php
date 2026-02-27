@@ -34,7 +34,7 @@ class Expense extends Model
     // Relationships
     public function payer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category(): BelongsTo
