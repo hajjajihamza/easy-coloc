@@ -2,7 +2,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal } from 'flowbite';
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 
 export function initExpenseCalendar() {
     const calendarEl = document.getElementById('calendar');
@@ -49,16 +49,16 @@ export function initExpenseCalendar() {
             }
         },
         dateClick: function (info) {
-            const clickedDate = format(info.dateStr, 'dd/MM/yyyy');
-            const today = format(new Date(), 'dd/MM/yyyy');
+            const clickedDate = format(info.dateStr, 'yyyy-MM-dd');
+            const today = format(new Date(), 'yyyy-MM-dd');
 
-            if (clickedDate > today) {
+            if (isAfter(clickedDate, today)) {
                 alert("Vous ne pouvez pas créer une dépense pour une date future.");
                 return;
             }
 
             if (modalDateInput) {
-                modalDateInput.value = clickedDate;
+                modalDateInput.value = format(clickedDate, 'dd/MM/yyyy');
             }
 
             if (modal) {

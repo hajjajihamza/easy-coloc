@@ -2,7 +2,7 @@
     <div class="lg:col-span-2 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
             <div>
-                <h3 class="text-lg font-bold text-gray-900">Calendrier des Dépenses</h3>
+                <h3 class="text-lg font-bold text-gray-900">Calendrier des Dépenses ({{ $colocation->name }})</h3>
                 <p class="text-sm text-gray-500" id="month-total-container">
                     Total du mois: <span id="month-total" class="font-bold text-blue-600">0.00 DH</span>
                 </p>
