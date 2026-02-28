@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\InvitationStatus;
-use App\Enums\MembershipRole;
 use App\Models\Invitation;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class InvitationController extends Controller
 {
@@ -21,6 +19,11 @@ class InvitationController extends Controller
 
         $user = User::where('email', $invitation->email)->first();
         if ($user) {
+            if ($user->activeColocation()) {
+                $message = ['error', 'Vous avez déjà une colocation active.'];
+                return view('invitation', compact('message'));
+            }
+
             $user->colocations()->syncWithoutDetaching([
                 $invitation->colocation_id => [
                     'joined_at' => now()
