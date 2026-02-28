@@ -13,7 +13,8 @@ Route::middleware(['auth', 'check-banned'])
                 Route::post('/', 'store')->name('store');
                 Route::put('/{colocation}', 'update')->name('update');
                 Route::patch('/{colocation}/members/{user}/toggle-owner', 'toggleOwner')->name('members.toggle-owner');
-                Route::delete('/{colocation}/members/{user}', 'leaving')->name('members.leaving');
+                Route::patch('/{colocation}/leave/{user}', 'leaving')->whereNumber('user')->name('members.leaving');
+                Route::patch('/{colocation}/leave/auth', 'leavingAuth')->name('members.leaving-auth');
                 Route::get('/{colocation}', 'show')->name('show');
                 Route::patch('/{colocation}', 'cancel')->name('cancel');
                 Route::post('/{colocation}/invitations', 'invite')->name('invite');

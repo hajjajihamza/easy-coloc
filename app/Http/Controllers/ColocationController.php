@@ -18,7 +18,6 @@ class ColocationController extends Controller
     public function index()
     {
         $colocations = Colocation::userColocation()->paginate(10);
-
         return view('colocation.index', compact('colocations'));
     }
 
@@ -31,10 +30,10 @@ class ColocationController extends Controller
 
         // Ajouter l'utilisateur connecté en tant qu'administrateur de la colocation
         $colocation->members()->syncWithoutDetaching([
-            auth()->id() => [
-                'joined_at' => now(),
-                'role' => MembershipRole::OWNER,
-            ],
+           auth()->id() => [
+               'joined_at' => now(),
+               'role' => MembershipRole::OWNER,
+           ]
         ]);
 
         return redirect()->route('colocations.show', $colocation)->with('success', 'Colocation créée avec succès');
@@ -43,7 +42,6 @@ class ColocationController extends Controller
     public function update(ColocationRequest $request, Colocation $colocation): RedirectResponse
     {
         $colocation->update($request->validated());
-
         return redirect()->route('colocations.show', $colocation)->with('success', 'Colocation mise à jour avec succès');
     }
 
@@ -61,7 +59,7 @@ class ColocationController extends Controller
 
     public function cancel(Colocation $colocation): RedirectResponse
     {
-        if (! $colocation->is_active) {
+        if (!$colocation->is_active) {
             return redirect()->back()->with('error', 'Colocation non active.');
         }
 
@@ -98,10 +96,13 @@ class ColocationController extends Controller
             ->whereNull('paid_at')
             ->get()
             ->each(function ($payment) {
-                $payment->update(array_merge(
-                    ['user_id' => auth()->id()],
-                    $payment->expense->user_id === auth()->id() ? ['paid_at' => now()] : []
-                ));
+                if ($payment->expense->user_id === auth()->id()) {
+                    $payment->update(['paid_at' => now(), 'user_id' => auth()->id()]);
+                } else {
+                    $payment->update(['user_id' => auth()->id()]);
+                }
+
+                $payment->update(['user_id' => auth()->id()]);
             });
 
         $colocation->members()->updateExistingPivot($user->id, [
@@ -111,13 +112,38 @@ class ColocationController extends Controller
         return redirect()->route('colocations.show', $colocation)->with('success', 'Colocation quitte avec succès.');
     }
 
+    public function leavingAuth(Colocation $colocation): RedirectResponse
+    {
+        $user = auth()->user();
+        $payments = $user->payments()
+            ->whereNull('paid_at')
+            ->get();
+
+        if($payments->isEmpty()) {
+           $user->increment('reputation');
+        } else {
+            $user->decrement('reputation');
+            $payments->each(function ($payment) {
+                $payment->update([
+                    'paid_at' => now(),
+                ]);
+            });
+        }
+
+        $colocation->members()->updateExistingPivot($user->id, [
+            'left_at' => now(),
+        ]);
+
+        return redirect()->route('colocations.index')->with('success', 'Colocation quitte avec succès.');
+    }
+
     public function invite(Request $request, Colocation $colocation)
     {
         $request->validate([
             'email' => ['required', 'email'],
         ]);
 
-        $token = time().Str::random(60).Str::uuid();
+        $token = time() . Str::random(60) . Str::uuid();
         $invitation = $colocation->invitations()->create([
             'email' => $request->email,
             'token' => $token,

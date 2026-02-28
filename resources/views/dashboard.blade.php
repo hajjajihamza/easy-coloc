@@ -69,7 +69,7 @@
     @if ($colocation)
         @include('colocation.include._calendar')
     @else
-        <div class="flex flex-col items-center justify-center h-64 px-4">
+        <div class="flex flex-col items-center justify-center h-64 px-4 mt-12">
             <div class="relative mb-4">
                 <div class="absolute inset-0 bg-gray-100 rounded-full blur-2xl opacity-60"></div>
                 <div class="relative bg-gray-50 rounded-full p-6 border border-gray-200">
@@ -94,25 +94,6 @@
             <p class="text-gray-500 text-center max-w-sm">
                 {{ __('Vous n\'avez pas encore de colocation active. Créez-en une ou rejoignez une colocation existante.') }}
             </p>
-
-            <div class="flex items-center space-x-3 mt-6">
-                <a href="#"
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    {{ __('Créer une colocation') }}
-                </a>
-
-                <a href="#"
-                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors duration-200">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    {{ __('Rejoindre') }}
-                </a>
-            </div>
         </div>
     @endif
 </x-app-layout>

@@ -179,7 +179,7 @@
                                         action="{{ route('colocations.members.leaving', [$colocation, 'user' => $member]) }}"
                                         method="POST" class="inline ml-2"
                                         onsubmit="return confirm('{{ __('Êtes-vous sûr de vouloir retirer ce membre (à cause de retirer membre les dépenses non payées seront transférées à vous.) ?') }}')">
-                                        @csrf @method('DELETE')
+                                        @csrf @method('PATCH')
                                         <button type="submit" title="{{ __('Retirer membre') }}"
                                             class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 hover:bg-red-200">
                                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
