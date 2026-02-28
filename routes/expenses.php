@@ -8,7 +8,7 @@ Route::middleware(['auth', 'check-banned'])
     ->prefix('expenses')
     ->name('expenses.')
     ->group(function () {
-        Route::get('/', 'index')->name('index');
+        Route::get('/{colocation}', 'index')->name('index');
         Route::get('/export', 'export')->name('export');
         Route::post('/', 'store')->name('store');
         Route::delete('/{expense}', 'destroy')->name('destroy');

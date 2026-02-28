@@ -8,6 +8,7 @@ export function initExpenseCalendar() {
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) return;
 
+    const colocationId = calendarEl.getAttribute('data-colocation');
     const totalEl = document.getElementById('month-total');
     const modalDateInput = document.getElementById('modal-date');
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -34,7 +35,7 @@ export function initExpenseCalendar() {
             const from = format(info.startStr, 'yyyy-MM-dd');
             const to = format(info.endStr, 'yyyy-MM-dd');
             try {
-                const response = await axios.get('/expenses', {
+                const response = await axios.get(`/expenses/${colocationId}`, {
                     params: { start: from, end: to }
                 });
 

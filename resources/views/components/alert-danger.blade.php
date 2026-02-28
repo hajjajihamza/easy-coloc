@@ -1,4 +1,4 @@
-<div class="flex items-start sm:items-center p-4 mb-4 text-sm text-fg-error-strong rounded-base bg-error-soft"
+<div class="flex items-start sm:items-center p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft"
      role="alert">
     <svg class="w-4 h-4 me-2 shrink-0 mt-0.5 sm:mt-0" aria-hidden="true"
          xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"

@@ -72,24 +72,49 @@
                 <!-- Action Buttons -->
                 <div class="mt-4 md:mt-0 flex space-x-2">
                     @if ($colocation->is_owner)
-                        <button type="button" data-modal-target="colocation-modal-edit"
-                            data-modal-toggle="colocation-modal-edit"
-                            class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
-                            {{ __('Modifier') }}
-                        </button>
+                        <div class="space-y-2 sm:space-y-0 sm:flex sm:items-center sm:justify-end sm:gap-2">
+                            @if ($colocation->is_active)
+                                <!-- Cancel Button -->
+                                <form action="{{ route('colocations.cancel', $colocation) }}" method="POST"
+                                    onsubmit="return confirm('{{ __('Êtes-vous sûr de vouloir annuler cette colocation ?') }}')"
+                                    class="block sm:inline-block w-full sm:w-auto">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit"
+                                        class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-3 sm:py-2 bg-red-50 border border-red-200 rounded-lg text-sm font-medium text-red-700 hover:bg-red-100 transition-colors duration-200">
+                                        <svg class="w-5 h-5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        <span>{{ __('Annuler') }}</span>
+                                    </button>
+                                </form>
 
-                        <a href="{{ route('expenses.export') }}"
-                            class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-green-700 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            {{ __('Exporter en CSV') }}
-                        </a>
+                                <!-- Edit Button -->
+                                <button type="button" data-modal-target="colocation-modal-edit"
+                                    data-modal-toggle="colocation-modal-edit"
+                                    class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-3 sm:py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                    <svg class="w-5 h-5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    <span>{{ __('Modifier') }}</span>
+                                </button>
+                            @endif
+
+                            <!-- Export Button -->
+                            <a href="{{ route('expenses.export') }}"
+                                class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-3 sm:py-2 bg-green-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-green-700 transition-colors duration-200">
+                                <svg class="w-5 h-5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>{{ __('Exporter les dépenses CSV') }}</span>
+                            </a>
+                        </div>
 
                         <x-modal-colocation action="{{ route('colocations.update', $colocation) }}" method="PUT"
                             id="colocation-modal-edit" :colocation="$colocation" title="{{ __('Modifier la colocation') }}"
@@ -102,6 +127,5 @@
 
     @include('colocation.include._calendar', [
         'categories' => $colocation->categories,
-        'isPayment' => true,
     ])
 </x-app-layout>

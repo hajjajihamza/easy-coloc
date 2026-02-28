@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="p-4 flex-grow">
-            <div id="calendar" class="min-h-[500px]"></div>
+            <div id="calendar" data-colocation="{{ $colocation->id }}" class="min-h-[500px]"></div>
         </div>
     </div>
 
@@ -35,8 +35,8 @@
             <div class="flex items-center gap-3 mb-6">
                 <div class="p-2 bg-indigo-50 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="text-indigo-600">
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" class="text-indigo-600">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                         <circle cx="9" cy="7" r="4" />
                         <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -47,7 +47,7 @@
             </div>
 
             <div class="space-y-4">
-                @forelse (\App\Models\Payment::unpaid()->get() as $payment)
+                @forelse (\App\Models\Payment::unpaid($colocation->id)->get() as $payment)
                     <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
                         <div class="flex flex-col sm:flex-row items-center gap-4">
                             <!-- Left side with expense title and users -->
@@ -91,9 +91,9 @@
 
                             <!-- Amount & Button -->
                             <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0">
-                                <span class="text-xl font-bold text-red-600 whitespace-nowrap">
-                                    {{ number_format($payment->amount, 2) }} <span class="text-sm">DH</span>
-                                </span>
+                            <span class="text-xl font-bold text-red-600 whitespace-nowrap">
+                                {{ number_format($payment->amount, 2) }} <span class="text-sm">DH</span>
+                            </span>
                                 @if(auth()->id() === $payment->user_id || auth()->id() === $payment->expense->user_id)
                                     <form action="{{ route('expenses.mark-as-paid', $payment) }}" method="POST"
                                           onsubmit="return confirm('Etes-vous sûr de vouloir marquer ce paiement comme payé ?');">
@@ -124,11 +124,12 @@
                 @endforelse
             </div>
         </div>
-
         <x-members :colocation="$colocation" />
     </div>
 </div>
 
 <!-- Expense Modal -->
-<x-expense-modal :categories="$categories" />
+@if ($colocation->is_active)
+    <x-expense-modal :categories="$categories" />
+@endif
 <x-expense-details-modal />

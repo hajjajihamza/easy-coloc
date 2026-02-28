@@ -55,11 +55,15 @@ class Payment extends Model
 
     // Scopes
     #[Scope]
-    protected function unpaid(Builder $query): void
+    protected function unpaid(Builder $query, int $colocationId): void
     {
         $query->whereNull('paid_at')
-            ->with(['expense.payer', 'user'])
-        ;
+            ->whereHas('expense', function(Builder $query) use ($colocationId) {
+                $query->whereHas('category', function(Builder $query) use ($colocationId) {
+                    $query->where('colocation_id', $colocationId);
+                });
+            })
+            ->with(['expense.payer', 'user']);
     }
 
     //  Methods

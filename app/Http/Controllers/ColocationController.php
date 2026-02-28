@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ColocationStatus;
 use App\Enums\MembershipRole;
 use App\Http\Requests\Colocation\ColocationRequest;
 use App\Mail\InvitationMail;
@@ -49,7 +50,28 @@ class ColocationController extends Controller
      */
     public function show(Colocation $colocation)
     {
+        if ($colocation->isLeavingAuth()) {
+            return redirect()->route('colocations.index')->with('error', 'Vous n\'avez pas accès à cette colocation.');
+        }
+        
         return view('colocation.show', compact('colocation'));
+    }
+
+    public function cancel(Colocation $colocation): RedirectResponse
+    {
+        if (!$colocation->is_active) {
+            return redirect()->back()->with('error', 'Colocation non active.');
+        }
+
+        if ($colocation->expenses()->whereRelation('payments', 'paid_at', null)->exists()) {
+            return redirect()->back()->with('error', 'Ne pouvez pas annuler une colocation avec des dépenses non payées.');
+        }
+
+        $colocation->update([
+            'status' => ColocationStatus::CANCELLED,
+        ]);
+
+        return redirect()->route('colocations.index')->with('success', 'Colocation annulée avec succès.');
     }
 
     public function toggleOwner(Colocation $colocation, User $user): RedirectResponse

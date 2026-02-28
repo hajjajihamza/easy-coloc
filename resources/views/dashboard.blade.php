@@ -9,7 +9,15 @@
                     <h3 class="text-2xl font-bold text-gray-900">{{ auth()->user()->reputation }}</h3>
                 </div>
                 <div class="p-3 bg-blue-50 rounded-lg">
-                    <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M10.92 2.868a1.25 1.25 0 0 1 2.16 0l2.795 4.798l5.428 1.176a1.25 1.25 0 0 1 .667 2.054l-3.7 4.141l.56 5.525a1.25 1.25 0 0 1-1.748 1.27L12 19.592l-5.082 2.24a1.25 1.25 0 0 1-1.748-1.27l.56-5.525l-3.7-4.14a1.25 1.25 0 0 1 .667-2.055l5.428-1.176z"/></g></svg>
+                    <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                        viewBox="0 0 24 24">
+                        <g fill="none">
+                            <path
+                                d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                            <path fill="currentColor"
+                                d="M10.92 2.868a1.25 1.25 0 0 1 2.16 0l2.795 4.798l5.428 1.176a1.25 1.25 0 0 1 .667 2.054l-3.7 4.141l.56 5.525a1.25 1.25 0 0 1-1.748 1.27L12 19.592l-5.082 2.24a1.25 1.25 0 0 1-1.748-1.27l.56-5.525l-3.7-4.14a1.25 1.25 0 0 1 .667-2.055l5.428-1.176z" />
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -18,20 +26,21 @@
         <div class="p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-green-500 uppercase tracking-wider">Dépenses Impayées par les autres</p>
+                    <p class="text-sm font-medium text-green-500 uppercase tracking-wider">Dépenses Impayées par les
+                        autres</p>
                     <h3 class="text-2xl font-bold text-green-600">
                         {{ number_format(Payment::totalUnpaidExpensesByPayer(auth()->user()), 2) }} DH
                     </h3>
                 </div>
                 <div class="p-3 bg-orange-50 rounded-lg">
                     <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                         viewBox="0 0 48 48">
+                        viewBox="0 0 48 48">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                              d="M42 29.4V39a1.996 1.996 0 0 1-2 2H6a1.996 1.996 0 0 1-2-2V12a1.996 1.996 0 0 1 2-2h34a1.996 1.996 0 0 1 2 2v10"/>
+                            d="M42 29.4V39a1.996 1.996 0 0 1-2 2H6a1.996 1.996 0 0 1-2-2V12a1.996 1.996 0 0 1 2-2h34a1.996 1.996 0 0 1 2 2v10" />
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                              d="M6 10a3.375 3.375 0 0 1 3-3h28a3.375 3.375 0 0 1 3 3m4.5 12v7.4H37a4 4 0 0 1-4.054-3.7A4.016 4.016 0 0 1 37 22ZM17 26l6 9l6-9l-6-10.263Z"/>
+                            d="M6 10a3.375 3.375 0 0 1 3-3h28a3.375 3.375 0 0 1 3 3m4.5 12v7.4H37a4 4 0 0 1-4.054-3.7A4.016 4.016 0 0 1 37 22ZM17 26l6 9l6-9l-6-10.263Z" />
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                              d="m17 26l6 4l6-4"/>
+                            d="m17 26l6 4l6-4" />
                     </svg>
                 </div>
             </div>
@@ -49,7 +58,7 @@
                 <div class="p-3 bg-orange-50 rounded-lg">
                     <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                         </path>
                     </svg>
                 </div>
@@ -57,5 +66,53 @@
         </div>
     </div>
 
-    @include('colocation.include._calendar')
+    @if ($colocation)
+        @include('colocation.include._calendar')
+    @else
+        <div class="flex flex-col items-center justify-center h-64 px-4">
+            <div class="relative mb-4">
+                <div class="absolute inset-0 bg-gray-100 rounded-full blur-2xl opacity-60"></div>
+                <div class="relative bg-gray-50 rounded-full p-6 border border-gray-200">
+                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        <circle cx="19" cy="5" r="3" stroke="currentColor" stroke-width="1.5" />
+                        <path stroke-linecap="round" stroke="currentColor" stroke-width="1.5" d="M17 3l4 4M21 3l-4 4" />
+                    </svg>
+                </div>
+                <div class="absolute -top-2 -right-2 bg-gray-200 rounded-full p-2 border border-gray-300">
+                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700 mb-1">
+                {{ __('Aucune colocation trouvée') }}
+            </h3>
+            <p class="text-gray-500 text-center max-w-sm">
+                {{ __('Vous n\'avez pas encore de colocation active. Créez-en une ou rejoignez une colocation existante.') }}
+            </p>
+
+            <div class="flex items-center space-x-3 mt-6">
+                <a href="#"
+                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    {{ __('Créer une colocation') }}
+                </a>
+
+                <a href="#"
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    {{ __('Rejoindre') }}
+                </a>
+            </div>
+        </div>
+    @endif
 </x-app-layout>

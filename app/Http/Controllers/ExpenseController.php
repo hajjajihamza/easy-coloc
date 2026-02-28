@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Expense\ExpenseRequest;
+use App\Models\Colocation;
 use App\Models\Expense;
 use App\Models\Category;
 use App\Models\Payment;
@@ -17,12 +18,10 @@ use App\Exports\ExpensesExport;
 
 class ExpenseController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, Colocation $colocation): JsonResponse
     {
         $start = $request->query('start');
         $end = $request->query('end');
-
-        $colocation = Auth::user()->activeColocation();
 
         if (!$colocation) {
             return response()->json(['events' => [], 'total' => 0]);
@@ -37,7 +36,7 @@ class ExpenseController extends Controller
 
         $expenses = $expensesQuery->get();
 
-        $events = $expenses->map(function ($expense) {
+        $events = $expenses->map(function ($expense) use ($colocation) {
             return [
                 'id' => $expense->id,
                 'title' => $expense->title . ' (' . number_format($expense->amount, 2) . ' DH)',
@@ -48,7 +47,7 @@ class ExpenseController extends Controller
                     'payer_id' => $expense->user_id,
                     'payer_name' => $expense->payer->name,
                     'category_name' => $expense->category->name,
-                    'can_delete' => Auth::id() === $expense->user_id,
+                    'can_delete' => Auth::id() === $expense->user_id && $colocation->is_active,
                 ],
                 'backgroundColor' => '#3b82f6', // blue-500
                 'borderColor' => '#2563eb', // blue-600

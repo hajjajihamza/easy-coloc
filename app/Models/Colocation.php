@@ -63,7 +63,7 @@ class Colocation extends Model
 
     protected function countMembers(): Attribute
     {
-        return Attribute::get(fn() => $this->members->count());
+        return Attribute::get(fn() => $this->members()->whereNull('left_at')->count());
     }
 
     protected function countExpenses(): Attribute
@@ -109,5 +109,18 @@ class Colocation extends Model
     public static function countActiveColocations(): int
     {
         return self::where('status', ColocationStatus::ACTIVE)->count();
+    }
+
+    public function isLeavingAuth(): bool
+    {
+        return $this->members()
+            ->wherePivot('user_id', auth()->id())
+            ->wherePivotNotNull('left_at')
+            ->exists();
+    }
+
+    protected function isLeavingMember(): Attribute
+    {
+        return Attribute::get(fn() => $this->members()->where('user_id', auth()->id())->whereNotNull('left_at')->exists());
     }
 }
